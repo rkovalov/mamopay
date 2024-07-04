@@ -16,7 +16,7 @@ interface LayoutProps {
   children?: React.ReactNode;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const expensesStore = useExpensesStore();
 

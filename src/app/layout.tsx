@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Layout } from "@/app/_components/layout";
+import { AppLayout } from "./_components/app-layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={clsx(inter.className, "h-full")}>
         <TooltipProvider delayDuration={0}>
-          <Layout>{children}</Layout>
+          <AppLayout>{children}</AppLayout>
         </TooltipProvider>
       </body>
     </html>

@@ -45,6 +45,7 @@ export const expensesSchema = z.object({
 export type ExpensesResponse = z.infer<typeof expensesSchema>;
 
 function validate(dto: unknown): ExpensesResponse {
+  console.log(JSON.stringify({ dto }));
   return expensesSchema.parse(dto);
 }
 

@@ -1,3 +1,6 @@
+"use client";
+import { useEffect, useRef } from "react";
+
 import {
   Table,
   TableBody,
@@ -8,18 +11,51 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Expense } from "../../types";
+import { InView, useInView } from "react-intersection-observer";
 
+import { useExpensesStore } from "../../_store";
+import { getExpenses } from "../../actions/getExpenses";
+import { Expense } from "../../types";
 interface ExpensesProps {
-  expenses: Expense[];
+  defaultExpenses: Expense[];
 }
 
-export function Expenses({ expenses }: ExpensesProps) {
+const useExpenses = () => {
+  const { expenses, totalExpenses, perPage, addExpenses } = useExpensesStore();
+  const { ref: scrollTriggerRef, inView } = useInView();
+
+  const hasMore = expenses && expenses.length < Number(totalExpenses);
+
+  useEffect(() => {
+    if (inView && hasMore && expenses) {
+      const currentPage = Math.ceil(expenses.length / perPage);
+      getExpenses(currentPage + 1, perPage).then((res) => {
+        addExpenses(res.expenses);
+      });
+    }
+  }, [hasMore, inView, perPage, expenses]);
+
+  return {
+    expenses,
+    totalExpenses,
+    perPage,
+    hasMore,
+    scrollTriggerRef,
+  };
+};
+
+export function Expenses({ defaultExpenses }: ExpensesProps) {
+  const { expenses, hasMore, scrollTriggerRef } = useExpenses();
+
   return (
     <Table>
-      <TableCaption>A list of your recent expenses.</TableCaption>
+      <TableCaption>
+        A list of your recent expenses.{" "}
+        {!hasMore && expenses && "No more expenses to load."}
+      </TableCaption>
       <TableHeader>
         <TableRow>
+          <TableHead className="w-[20px]">N</TableHead>
           <TableHead className="w-[100px]">Category</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Method</TableHead>
@@ -27,14 +63,26 @@ export function Expenses({ expenses }: ExpensesProps) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {expenses.map((expense) => (
-          <TableRow key={expense.id}>
+        {(expenses || defaultExpenses)?.map((expense, index) => (
+          <TableRow key={expense.id + index}>
+            <TableHead className="w-[20px]">{index + 1}</TableHead>
             <TableCell className="font-medium">{expense.category}</TableCell>
             <TableCell>{expense.status}</TableCell>
             <TableCell>{expense.paymentMethod}</TableCell>
             <TableCell className="text-right">{expense.amount}</TableCell>
           </TableRow>
         ))}
+        <TableRow>
+          {hasMore && (
+            <TableCell
+              colSpan={4}
+              ref={scrollTriggerRef}
+              className="text-center"
+            >
+              Loading...
+            </TableCell>
+          )}
+        </TableRow>
       </TableBody>
       <TableFooter>
         {/* <TableRow>

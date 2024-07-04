@@ -18,7 +18,8 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-  const expensesStore = useExpensesStore((state) => state);
+  const expensesStore = useExpensesStore();
+
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
@@ -55,8 +56,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={75}>
-          <main className="flex h-full flex-col p-2">{children}</main>
+        <ResizablePanel defaultSize={75} style={{ overflow: "auto" }}>
+          <main className="flex flex-col p-2">{children}</main>
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>

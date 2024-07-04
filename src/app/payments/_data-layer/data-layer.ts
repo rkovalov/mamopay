@@ -1,24 +1,24 @@
-type BaseUserInfo = {
-  email: string;
-  firstName: string;
-  lastName: string;
-};
+"use server";
 
-export function createPaymentLink({
+import { PaymentInfo } from "../types";
+
+export async function createPaymentLink({
   email,
   firstName,
   lastName,
-}: BaseUserInfo) {
+  title,
+}: PaymentInfo) {
   return fetch("https://sandbox.dev.business.mamopay.com/manage_api/v1/links", {
     method: "POST",
     headers: {
       "Content-type": "application/json",
       Accept: "application/json",
-      Authorization: `Bearer ${process.env.PUBLIC_MAMO_API_KEY}`,
+      Authorization: `Bearer ${process.env.MAMO_API_KEY}`,
     },
     body: JSON.stringify({
       link_type: "inline",
       email,
+      title,
       first_name: firstName,
       last_name: lastName,
     }),

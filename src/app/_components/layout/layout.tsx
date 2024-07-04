@@ -56,8 +56,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           />
         </ResizablePanel>
         <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={75} style={{ overflow: "auto" }}>
-          <main className="flex flex-col p-2">{children}</main>
+        <ResizablePanel
+          defaultSize={75}
+          style={{ overflow: "auto" }}
+          className="flex flex-col"
+        >
+          <main className="flex-1 flex flex-col p-2">
+            <div className="flex-1 flex flex-col">{children}</div>
+          </main>
         </ResizablePanel>
       </ResizablePanelGroup>
     </TooltipProvider>

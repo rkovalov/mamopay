@@ -6,9 +6,9 @@ import { PaymentForm } from "./_components/payment-form";
 
 export default function NewPayment() {
   return (
-    <div className="">
+    <>
       <h1>New Payment</h1>
       <PaymentForm />
-    </div>
+    </>
   );
 }

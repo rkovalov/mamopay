@@ -1,25 +1,38 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { useEffect } from "react";
-import * as DL from "../../_data-layer";
+import Script from "next/script";
+import { useEffect, useState, useRef } from "react";
+import { createPaymentLink } from "../../actions/getExpenses";
 
 export function PaymentForm() {
+  const [payment, setPayment] = useState<{ payment_url: string }>();
+  const isMamoCheckoutOpenRef = useRef(false);
+
   useEffect(() => {
-    //
-    DL.createPaymentLink({
+    createPaymentLink({
       email: "sdsd@test.com",
       firstName: "Tom",
       lastName: "Jarrad",
-    });
+      title: "New Payment",
+    }).then(setPayment);
   }, []);
+
+  useEffect(() => {
+    if (payment?.payment_url && !isMamoCheckoutOpenRef.current) {
+      isMamoCheckoutOpenRef.current = true;
+      window.addIframeToWebsite();
+    }
+  }, [payment?.payment_url]);
+
+  // console.log("payment", { payment });
+
   return (
-    <div className="">
-      FORM
-      {/* Implement Form for creating new payment link */}
-      {/*  */}
-      {/* <div id="mamo-checkout" data-src="<payment-link-placeholder>"></div>
-      <script src="https://assets.mamopay.com/public/checkout-inline.min.js" /> */}
+    <div className="flex-1 flex flex-col p-10">
+      <Script src="https://assets.mamopay.com/public/checkout-inline.min.js" />
+      <div
+        id="mamo-checkout"
+        data-src={payment?.payment_url}
+        className="flex-1"
+      />
     </div>
   );
 }

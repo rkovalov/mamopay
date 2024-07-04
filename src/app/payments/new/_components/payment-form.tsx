@@ -1,11 +1,11 @@
 "use client";
 import Script from "next/script";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { createPaymentLink } from "../../actions/getExpenses";
 
 export function PaymentForm() {
   const [payment, setPayment] = useState<{ payment_url: string }>();
-  const isMamoCheckoutOpenRef = useRef(false);
+  const [isMamoCheckoutOpen, setIsMamoCheckoutOpen] = useState(false);
 
   useEffect(() => {
     createPaymentLink({
@@ -17,17 +17,16 @@ export function PaymentForm() {
   }, []);
 
   useEffect(() => {
-    if (payment?.payment_url && !isMamoCheckoutOpenRef.current) {
-      isMamoCheckoutOpenRef.current = true;
+    if (payment?.payment_url && !isMamoCheckoutOpen) {
+      setIsMamoCheckoutOpen(true);
       window.addIframeToWebsite();
     }
-  }, [payment?.payment_url]);
-
-  // console.log("payment", { payment });
+  }, [payment?.payment_url, isMamoCheckoutOpen]);
 
   return (
     <div className="flex-1 flex flex-col p-10">
       <Script src="https://assets.mamopay.com/public/checkout-inline.min.js" />
+      {!isMamoCheckoutOpen && <>loading...</>}
       <div
         id="mamo-checkout"
         data-src={payment?.payment_url}

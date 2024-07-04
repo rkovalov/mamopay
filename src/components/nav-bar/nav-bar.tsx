@@ -1,13 +1,17 @@
 "use client";
 import { CreditCard, WalletCards, House } from "lucide-react";
-
+import { useStore } from "zustand";
 import { Nav } from "@/components/ui/nav";
 
 interface NavBarProps {
   isCollapsed: boolean;
+  totalExpenses: number | null;
 }
 
-export const NavBar: React.FC<NavBarProps> = ({ isCollapsed }) => {
+export const NavBar: React.FC<NavBarProps> = ({
+  isCollapsed,
+  totalExpenses,
+}) => {
   return (
     <Nav
       isCollapsed={isCollapsed}
@@ -27,7 +31,7 @@ export const NavBar: React.FC<NavBarProps> = ({ isCollapsed }) => {
         {
           title: "Expenses",
           href: "/expenses",
-          label: "128", // count of items
+          label: Number(totalExpenses) > 0 ? String(totalExpenses) : "-", // count of items
           icon: WalletCards,
         },
       ]}

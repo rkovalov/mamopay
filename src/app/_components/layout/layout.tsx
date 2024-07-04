@@ -3,6 +3,7 @@ import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 // import { Separator } from "@/components/ui/separator";
 import { NavBar } from "@/components/nav-bar";
+import { useExpensesStore } from "../../expenses/_store/store";
 
 import {
   ResizablePanelGroup,
@@ -17,7 +18,7 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-
+  const expensesStore = useExpensesStore((state) => state);
   return (
     <TooltipProvider delayDuration={0}>
       <ResizablePanelGroup
@@ -48,7 +49,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             )}`;
           }}
         >
-          <NavBar isCollapsed={isCollapsed} />
+          <NavBar
+            isCollapsed={isCollapsed}
+            totalExpenses={expensesStore.totalExpenses}
+          />
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={75}>

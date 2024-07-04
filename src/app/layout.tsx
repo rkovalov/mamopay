@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import clsx from "clsx";
 import { Inter } from "next/font/google";
 import "./globals.css";
+
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Layout } from "@/components/layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="h-full">
+      <body className={clsx(inter.className, "h-full")}>
+        <TooltipProvider delayDuration={0}>
+          <Layout>{children}</Layout>
+        </TooltipProvider>
+      </body>
     </html>
   );
 }

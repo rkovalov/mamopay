@@ -1,15 +1,12 @@
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import * as DL from "./_data-layer";
+import { Expenses } from "./_components/expenses";
 
-export default function Expenses() {
+export default async function ExpensesPage() {
+  const expenses = await DL.fetchExpenses();
+
   return (
     <div className="flex flex-col">
-      <div className="jus">
-        <Button variant="outline">
-          Create New <Plus />
-        </Button>
-      </div>
-      Payment List
+      <Expenses expenses={expenses.expenses} />
     </div>
   );
 }

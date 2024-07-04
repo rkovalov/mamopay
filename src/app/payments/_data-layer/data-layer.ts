@@ -13,7 +13,8 @@ export function createPaymentLink({
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${process.env.MAMO_API_KEY}`,
+      Accept: "application/json",
+      Authorization: `Bearer ${process.env.PUBLIC_MAMO_API_KEY}`,
     },
     body: JSON.stringify({
       link_type: "inline",

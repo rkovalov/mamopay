@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
-export default function Payments() {
+export default async function Payments() {
   return (
     <div className="flex flex-col">
       <div className="jus">
@@ -12,7 +12,6 @@ export default function Payments() {
           </Button>
         </Link>
       </div>
-      Payment List
     </div>
   );
 }

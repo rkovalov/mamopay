@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { LucideIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -18,11 +19,12 @@ interface NavProps {
     title: string;
     label?: string;
     icon: LucideIcon;
-    variant: "default" | "ghost";
   }[];
 }
 
 export function Nav({ links, isCollapsed }: NavProps) {
+  const currentPath = usePathname();
+
   return (
     <div
       data-collapsed={isCollapsed}
@@ -36,10 +38,11 @@ export function Nav({ links, isCollapsed }: NavProps) {
                 <Link
                   href={link.href ?? "#"}
                   className={cn(
-                    buttonVariants({ variant: link.variant, size: "icon" }),
-                    "h-9 w-9",
-                    link.variant === "default" &&
-                      "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+                    buttonVariants({
+                      variant: currentPath === link.href ? "default" : "ghost",
+                      size: "icon",
+                    }),
+                    "h-9 w-9"
                   )}
                 >
                   <link.icon className="h-4 w-4" />
@@ -60,9 +63,10 @@ export function Nav({ links, isCollapsed }: NavProps) {
               key={index}
               href={link.href ?? "#"}
               className={cn(
-                buttonVariants({ variant: link.variant, size: "sm" }),
-                link.variant === "default" &&
-                  "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
+                buttonVariants({
+                  variant: currentPath === link.href ? "default" : "ghost",
+                  size: "sm",
+                }),
                 "justify-start"
               )}
             >
@@ -71,9 +75,9 @@ export function Nav({ links, isCollapsed }: NavProps) {
               {link.label && (
                 <span
                   className={cn(
-                    "ml-auto",
-                    link.variant === "default" &&
-                      "text-background dark:text-white"
+                    "ml-auto"
+                    // currentPath === link.href &&
+                    //   "text-background dark:text-white"
                   )}
                 >
                   {link.label}

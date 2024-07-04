@@ -1,16 +1,13 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
-export default function Payments() {
+export default function Expenses() {
   return (
     <div className="flex flex-col">
       <div className="jus">
-        <Link href="/payments/new">
-          <Button variant="outline">
-            Create New <Plus />
-          </Button>
-        </Link>
+        <Button variant="outline">
+          Create New <Plus />
+        </Button>
       </div>
       Payment List
     </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import clsx from "clsx";
-import { CreditCard, House, Inbox } from "lucide-react";
+import { CreditCard, WalletCards, House } from "lucide-react";
 
 import { ResizablePanel } from "@/components/ui/resizable";
 import { Nav } from "@/components/ui/nav";
@@ -39,14 +39,18 @@ export const NavBar: React.FC<NavBarProps> = ({ defaultCollapsed }) => {
             href: "/",
             label: "",
             icon: House,
-            variant: "ghost",
           },
           {
             title: "Payments",
             href: "/payments",
-            label: "128", // count of items
+            label: "0", // count of items
             icon: CreditCard,
-            variant: "default",
+          },
+          {
+            title: "Expenses",
+            href: "/expenses",
+            label: "128", // count of items
+            icon: WalletCards,
           },
         ]}
       />
